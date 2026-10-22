@@ -4,7 +4,9 @@
  * Turns on an LED on for one second,
  * then off for one second, repeatedly.
  */
-#include "Arduino.h"
+#include <Arduino.h>
+
+#define SERIAL_BAUD_RATE 9600
 
 #ifndef LED_BUILTIN
 #define LED_BUILTIN 13
@@ -12,6 +14,8 @@
 
 void setup()
 {
+  Serial.begin(SERIAL_BAUD_RATE);
+
   // initialize LED digital pin as an output.
   pinMode(LED_BUILTIN, OUTPUT);
   
