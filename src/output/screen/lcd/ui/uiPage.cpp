@@ -3,14 +3,18 @@
 UIPage::UIPage(UIPage* nextPage,
     const String* leftNavigationPane,
     const String* rightNavigationPane,
+    const size_t navigationPaneSize,
     const String* staticTopPane,
+    const size_t topAndBottomPaneSize,
     const String (*dynamicBottomPanes)[14],
     const size_t dynamicBottomPaneCount,
     bool isBottomPaneDynamic) : 
     _nextPage(nextPage),
     _leftNavigationPane(leftNavigationPane),
     _rightNavigationPane(rightNavigationPane),
+    _navigationPaneSize(navigationPaneSize),
     _staticTopPane(staticTopPane),
+    _topAndBottomPaneSize(topAndBottomPaneSize),
     _dynamicBottomPanes(dynamicBottomPanes),
     _dynamicBottomPaneCount(dynamicBottomPaneCount),
     _isBottomPaneDynamic(isBottomPaneDynamic) {}

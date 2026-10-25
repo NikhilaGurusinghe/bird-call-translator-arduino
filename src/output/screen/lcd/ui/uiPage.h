@@ -13,13 +13,16 @@ class UIPage {
         UIPage(UIPage* nextPage,
                 const String* leftNavigationPane,
                 const String* rightNavigationPane,
+                const size_t navigationPaneSize,
                 const String* staticTopPane,
+                const size_t topAndBottomPaneSize,
                 const String (*dynamicBottomPanes)[14],
                 const size_t dynamicBottomPaneCount,
                 bool isBottomPaneDynamic);
 
         const String* getLeftNavigationPane() const;
         const String* getRightNavigationPane() const;
+        size_t getNavigationPaneSize() const;
         
         const String* getStaticTopPane() const;
 
@@ -34,6 +37,7 @@ class UIPage {
         const String* getDynamicBottomPanesByIndex(size_t paneIndex) const;
         size_t getDynamicBottomPaneCount() const;
         bool getIsBottomPaneDynamic() const;
+        size_t getTopAndBottomPaneSize() const;
 
     
 
@@ -43,11 +47,15 @@ class UIPage {
         // Navigation components
         // position 0 is top most on specified side
         // position 1 is bottom most on specified side
-        const String* _leftNavigationPane; // size 277
+        const String* _leftNavigationPane; // size 2
         const String* _rightNavigationPane; // size 2
+        const size_t _navigationPaneSize;
+        // todo small sizes + getters and setter in constructor for this
+
 
         // static area on top
         const String* _staticTopPane; // size 14
+        const size_t _topAndBottomPaneSize;
         // dynamic options area, this becomes dynamic when
         // we flip the isBottomPaneDynamic to true otherwise
         // this is just a 2 layer deep array with one element
