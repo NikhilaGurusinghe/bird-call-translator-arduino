@@ -52,6 +52,9 @@ bool StateMachine::tryParseIntoCustomIcon(String parseMe, uint8_t& customIconInd
         if (firstCharacter == '@' && customIconIndexCharacter >= '0' && customIconIndexCharacter <= '7') {
             customIconIndex = customIconIndexCharacter - '0'; // TODO check if this is correct
             return true;
+        } else if (parseMe.equals("FF")) { // we also accept "FF" for a fully lit up block of subpixels
+            // https://forum.arduino.cc/t/the-255-255-character-on-hd44780-compatible-lcd/13565
+            _lcdScreen.write(0xFF);
         }
     }
 
