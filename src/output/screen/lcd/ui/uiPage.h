@@ -14,7 +14,7 @@ class UIPage {
         UIPage(UIPage* nextPage,
                 const String* leftNavigationPane,
                 const String* rightNavigationPane,
-                const size_t navigationPaneSize,
+                const size_t navigationPaneHeight,
                 const String* staticTopPane,
                 const size_t topAndBottomPaneSize,
                 const String (*dynamicBottomPanes)[14],
@@ -22,6 +22,7 @@ class UIPage {
                 bool isBottomPaneDynamic);
 
         UIPage* getNextPage();
+        void setNextPage(UIPage* nextPage);
 
         const String* getLeftNavigationPane() const;
         const String* getRightNavigationPane() const;
@@ -52,7 +53,7 @@ class UIPage {
         // position 1 is bottom most on specified side
         const String* _leftNavigationPane; // size 2
         const String* _rightNavigationPane; // size 2
-        const size_t _navigationPaneSize;
+        const size_t _navigationPaneHeight; // height of navpanes
 
         // static area on top
         const String* _staticTopPane; // size 14
