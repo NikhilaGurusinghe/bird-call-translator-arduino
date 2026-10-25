@@ -40,7 +40,7 @@ void StateMachine::initialize() {
     drawEntireScreen();
 }
 
-bool StateMachine::tryParseIntoCustomIcon(String& parseMe, uint8_t& customIconIndex) {
+bool StateMachine::tryParseIntoCustomIcon(const String& parseMe, uint8_t& customIconIndex) {
     // if string is of size 2 and has a first character as '@'
     // get 2nd character, check if that 2nd character can be parsed into an integer
     if (parseMe.length() == 2) {
@@ -62,7 +62,7 @@ bool StateMachine::tryParseIntoCustomIcon(String& parseMe, uint8_t& customIconIn
     return false;
 }
 
-void StateMachine::writeSingleToScreen(String& characterOrCustomIcon) {
+void StateMachine::writeSingleToScreen(const String& characterOrCustomIcon) {
     uint8_t optionalCustomIconIndex;
     bool isCustomIcon = tryParseIntoCustomIcon(characterOrCustomIcon, optionalCustomIconIndex);
 

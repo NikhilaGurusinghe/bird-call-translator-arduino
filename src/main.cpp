@@ -2,6 +2,7 @@
 #include "output/screen/lcd/lcd.h"
 #include "output/screen/lcd/state/stateMachine.h"
 #include "output/screen/lcd/ui/uiPage.h"
+#include "input/debouncedButton.h"
 #include <Arduino.h>
 
 #define SERIAL_BAUD_RATE 9600
@@ -37,9 +38,9 @@ UIPage learningScreen(nullptr,
 // quiz screen dependencies
 const String quizScreen_LeftNavPane[navPaneHeight] = {"@2", "@0"};
 const String quizScreen_DynamicBottomPanes[][topAndBottomPaneSize] = {
-  {" ", "  ", "o", "p", "t", "i", "o", "n", " ", "#", "1", " ", " ", " "},
-  {" ", "  ", "o", "p", "t", "i", "o", "n", " ", "#", "2", " ", " ", " "},
-  {" ", "  ", "o", "p", "t", "i", "o", "n", " ", "#", "3", " ", " ", " "},
+  {" ", " ", "o", "p", "t", "i", "o", "n", " ", "#", "1", " ", " ", " "},
+  {" ", " ", "o", "p", "t", "i", "o", "n", " ", "#", "2", " ", " ", " "},
+  {" ", " ", "o", "p", "t", "i", "o", "n", " ", "#", "3", " ", " ", " "},
 };
 const size_t quizScreen_DynamicBottomPaneCount = 3;
 bool quizScreen_IsBottomPaneDynamic = true;
@@ -55,16 +56,17 @@ Icons customIcons;
 StateMachine stateMachine(lcd, customIcons, &learningScreen);
 
 // button related
-int lastDownButtonState = LOW;
-int lastSelectButtonState = LOW;
+DebouncedButton downButton(DOWN_BUTTON_PIN);
+DebouncedButton selectButton(SELECT_BUTTON_PIN);
+
 
 void setup()
 {
   Serial.begin(SERIAL_BAUD_RATE);
 
   // initialize pins
-  pinMode(DOWN_BUTTON_PIN, INPUT_PULLUP);
-  pinMode(SELECT_BUTTON_PIN, INPUT_PULLUP);
+  downButton.initialize();
+  selectButton.initialize();
   // pinMode(PIEZO_PIN, OUTPUT);
 
   // loop screens around so hitting confirm button keeps them
@@ -78,13 +80,8 @@ void setup()
 
 void loop()
 {
-  int currDownButtonState = digitalRead(DOWN_BUTTON_PIN);
-  int currSelectButtonState = digitalRead(SELECT_BUTTON_PIN);
-
-  // previous press was off and current press is on
-  // this stops holding down the button from triggering button presses
-  bool wasDownButtonPressed = currDownButtonState == HIGH && lastDownButtonState == LOW;
-  bool wasSelectButtonPressed = currSelectButtonState == HIGH && lastSelectButtonState == LOW;
+  bool wasDownButtonPressed = downButton.wasPressed();
+  bool wasSelectButtonPressed = selectButton.wasPressed();
 
   stateMachine.update(wasDownButtonPressed, wasSelectButtonPressed);
 }
