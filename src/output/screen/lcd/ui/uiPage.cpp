@@ -68,4 +68,9 @@ bool UIPage::getIsBottomPaneDynamic() const {
     return _isBottomPaneDynamic;
 }
 
+size_t UIPage::getTopAndBottomPaneSize() const {
+    return _topAndBottomPaneSize;
+}
+
+
 

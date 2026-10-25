@@ -22,11 +22,7 @@ class LCD {
         void print(const char* string);
         void home();
         void createChar(uint8_t location, uint8_t characterMap[]);
-        void begin();
         void write(uint8_t location);
-
-        void drawRow(uint8_t row, String );
-
 
     private: 
         LiquidCrystal_I2C _lcd;

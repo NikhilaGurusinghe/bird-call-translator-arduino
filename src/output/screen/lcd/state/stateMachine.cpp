@@ -1,6 +1,6 @@
 #include "StateMachine.h"
 
-StateMachine::StateMachine(LCD lcdScreen, Icons& customIcons, UIPage* uiPages) :
+StateMachine::StateMachine(LCD& lcdScreen, Icons& customIcons, UIPage* uiPages) :
                             _icons(customIcons), _lcdScreen(lcdScreen), _currentUIPage(uiPages) {}
 
 void StateMachine::update(bool buttonAPressed, bool buttonBPressed) {
@@ -40,7 +40,7 @@ void StateMachine::initialize() {
     drawEntireScreen();
 }
 
-bool StateMachine::tryParseIntoCustomIcon(String parseMe, uint8_t& customIconIndex) {
+bool StateMachine::tryParseIntoCustomIcon(String& parseMe, uint8_t& customIconIndex) {
     // if string is of size 2 and has a first character as '@'
     // get 2nd character, check if that 2nd character can be parsed into an integer
     if (parseMe.length() == 2) {
@@ -54,14 +54,15 @@ bool StateMachine::tryParseIntoCustomIcon(String parseMe, uint8_t& customIconInd
             return true;
         } else if (parseMe.equals("FF")) { // we also accept "FF" for a fully lit up block of subpixels
             // https://forum.arduino.cc/t/the-255-255-character-on-hd44780-compatible-lcd/13565
-            _lcdScreen.write(0xFF);
+            customIconIndex = 0xFF;
+            return true;
         }
     }
 
     return false;
 }
 
-void StateMachine::writeSingleToScreen(String characterOrCustomIcon) {
+void StateMachine::writeSingleToScreen(String& characterOrCustomIcon) {
     uint8_t optionalCustomIconIndex;
     bool isCustomIcon = tryParseIntoCustomIcon(characterOrCustomIcon, optionalCustomIconIndex);
 
@@ -88,7 +89,10 @@ void StateMachine::handleConfirm() {
     _currentDynamicBottomPaneIndex = 0;
 
     // go to the next page
-    _currentUIPage = _currentUIPage->getNextPage();
+    UIPage* nextPage = _currentUIPage->getNextPage();
+    if (nextPage != nullptr) {
+        _currentUIPage = nextPage;
+    }
 
     // draw the entirety of the new page
     _lcdScreen.clear();
@@ -99,7 +103,7 @@ void StateMachine::drawNavigationPaneHelper(const String* navigationPane, size_t
     for (size_t row = 0; row < navigationPaneHeight; row++) {
         _lcdScreen.setCursor(column, row);
         // draw stuff on row = row, col 0
-        const String navPaneCharacter = navigationPane[row];
+        const String& navPaneCharacter = navigationPane[row];
         // this'll be a single character to print out
         // might be a custom icon as well so we ave to check
         writeSingleToScreen(navPaneCharacter);
@@ -124,7 +128,7 @@ void StateMachine::drawTopOrBottomPaneHelper(const String *topOrBottomPane, size
     for (size_t col = 0; col < topOrBottomPaneWidth; col++) {
         _lcdScreen.setCursor(col, row);
         // character to write to screen
-        const String topAndBottomPaneCharacter = topOrBottomPane[col];
+        const String& topAndBottomPaneCharacter = topOrBottomPane[col];
         // TODO write to the screen
         writeSingleToScreen(topAndBottomPaneCharacter);
     }

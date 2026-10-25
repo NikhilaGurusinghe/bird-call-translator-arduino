@@ -12,7 +12,7 @@ class StateMachine {
     // want the LCD object 
     // want UI configuration for each screen -> singly linked list between main screens
     public:
-        StateMachine(LCD lcdScreen, Icons& customIcons, UIPage* uiPages);
+        StateMachine(LCD& lcdScreen, Icons& customIcons, UIPage* uiPages);
         // handling button input should change the state
         void update(bool buttonAPressed, bool buttonBPressed);
 
@@ -24,8 +24,8 @@ class StateMachine {
 
 
     private:
-        Icons _icons;
-        LCD _lcdScreen;
+        Icons& _icons;
+        LCD& _lcdScreen;
         UIPage* _currentUIPage;
 
         // state stuff
@@ -34,8 +34,8 @@ class StateMachine {
         // method to parse the strings in UIPage
         // to differentiate between "@<index of icon>"
         // and regular character to print to screen
-        bool tryParseIntoCustomIcon(String parseMe, uint8_t& customIconIndex);
-        void writeSingleToScreen(String characterOrCustomIcon);
+        bool tryParseIntoCustomIcon(const String& parseMe, uint8_t& customIconIndex);
+        void writeSingleToScreen(const String& characterOrCustomIcon);
 
         // button handle methods
         void handlePageTurn();
