@@ -7,8 +7,6 @@
 // lcd screen driver library
 #include <LiquidCrystal_I2C.h>
 
-
-
 /**
  * This class is a wrapper around the LCD Display library that provides an interface for the operations
  * that you would perform with the display.
@@ -26,6 +24,8 @@ class LCD {
         void createChar(uint8_t location, uint8_t characterMap[]);
         void begin();
         void write(uint8_t location);
+
+        void drawRow(uint8_t row, String );
 
 
     private: 
