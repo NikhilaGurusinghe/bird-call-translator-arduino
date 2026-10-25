@@ -1,6 +1,8 @@
 #ifndef BIRD_CALL_TRANSLATOR_LCD_H
 #define BIRD_CALL_TRANSLATOR_LCD_H
 
+#include <Arduino.h>
+
 #include <Wire.h> 
 // lcd screen driver library
 #include <LiquidCrystal_I2C.h>
@@ -21,7 +23,10 @@ class LCD {
         void setCursor(uint8_t column, uint8_t row);
         void print(const char* string);
         void home();
-   
+        void createChar(uint8_t location, uint8_t characterMap[]);
+        void begin();
+        void write(uint8_t location);
+
 
     private: 
         LiquidCrystal_I2C _lcd;

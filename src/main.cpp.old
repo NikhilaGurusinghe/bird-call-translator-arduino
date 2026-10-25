@@ -1,0 +1,150 @@
+#include <LiquidCrystal_I2C.h>
+
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+int downButton = 2;
+int selectButton = 3;
+int vibration = 4;
+int piezo = 5;
+int currentScreen = 0;
+const int totalScreens = 3;
+
+String menuItems[totalScreens] = {
+  "Bird Detection",
+  "Learning",
+  "Level up"
+};
+
+int lastDownState = LOW;
+int lastSelectState = LOW;
+
+
+void setup() {
+
+  Serial.begin(9600);
+  lcd.init();
+  lcd.clear();
+  lcd.backlight();
+
+  pinMode(downButton, INPUT);
+  pinMode(selectButton, INPUT);
+  pinMode(vibration, OUTPUT);
+  pinMode(piezo, OUTPUT);
+  
+  digitalWrite(vibration, LOW);
+
+  displayMenu();
+}
+
+
+void loop() {
+
+  int downState = digitalRead(downButton);
+  int selectState = digitalRead(selectButton);
+
+  if (downState == HIGH && lastDownState == LOW) {
+    currentScreen++;
+    if (currentScreen >= totalScreens) {
+      currentScreen = 0;
+    }
+    displayMenu();
+    Serial.println("Down button pressed");
+    delay(200);
+  }
+
+  if (selectState == HIGH && lastSelectState == LOW) {
+    selectScreen();
+    Serial.println("Select button pressed");
+    delay(200);
+  }
+
+
+  // Save current button states
+  lastDownState = downState;
+  lastSelectState = selectState;
+}
+
+
+void displayMenu() {
+  lcd.clear();
+  // Current menu item
+  lcd.setCursor(0, 0);
+  lcd.print("> ");
+  lcd.print(menuItems[currentScreen]);
+  // Next menu item
+  lcd.setCursor(0, 1);
+  int nextScreen = currentScreen + 1;
+  if (nextScreen >= totalScreens) {
+    nextScreen = 0;
+  }
+  lcd.print("  ");
+  lcd.print(menuItems[nextScreen]);
+}
+
+void selectScreen() {
+
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print(".:||:. ");
+
+  lcd.setCursor(0, 1);
+  if (currentScreen == 0) {
+    lcd.setCursor(0, 1);
+    lcd.print("Listening...");
+    birdcall();
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("Magpie detected");
+    digitalWrite(vibration, HIGH);
+    delay(1000);
+    digitalWrite(vibration, LOW);
+    delay(1000);
+    lcd.clear();
+        lcd.setCursor(0, 0);
+    lcd.print("Magpie said:");
+    lcd.setCursor(0, 1);
+    lcd.print(" 'I'm hungry' ");
+    delay(2000);
+
+
+    
+
+  }
+
+  else if (currentScreen == 1) {
+    lcd.print("What bird is...?");
+    birdcall();
+    lcd.clear();
+        lcd.print("It's a magpie");
+    delay(1000);
+
+  }
+
+  else if (currentScreen == 2) {
+    lcd.print("to Medium-size!");
+  }
+
+  delay(1000);
+  displayMenu();
+}
+void birdcall(){
+tone(piezo, 1000, 250);
+  delay(300);
+
+  tone(piezo, 1400, 300);
+  delay(350);
+
+  tone(piezo, 1200, 200);
+  delay(250);
+
+  tone(piezo, 1600, 400);
+  delay(450);
+
+  tone(piezo, 1000, 250);
+  delay(300);
+
+  tone(piezo, 1300, 500);
+  delay(600);
+
+  noTone(piezo);
+  delay(1000);
+}
