@@ -2,6 +2,7 @@
 #define BIRD_CALL_TRANSLATOR_STATEMACHINE_H
 
 #include <Arduino.h>
+#include <cstdint>
 
 #include "output/screen/lcd/ui/uiPage.h"
 #include "output/screen/lcd/lcd.h"
@@ -34,6 +35,8 @@ class StateMachine {
         // method to parse the strings in UIPage
         // to differentiate between "@<index of icon>"
         // and regular character to print to screen
+        bool tryParseIntoCustomIcon(String parseMe, uint8_t& customIconIndex);
+        void writeSingleToScreen(String characterOrCustomIcon);
 
         // button handle methods
         void handlePageTurn();

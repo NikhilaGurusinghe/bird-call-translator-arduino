@@ -1,4 +1,5 @@
 #include "StateMachine.h"
+#include <cstdint>
 
 StateMachine::StateMachine(LCD lcdScreen, Icons customIcons, UIPage* uiPages) :
                             _icons(customIcons), _lcdScreen(lcdScreen), _currentUIPage(uiPages) {}
@@ -24,6 +25,39 @@ void StateMachine::initialize() {
     _lcdScreen.initialize();
     _lcdScreen.clear();
     _lcdScreen.backlight();
+
+    // TODO insert the custom icons from _icons into CGRAM
+}
+
+bool StateMachine::tryParseIntoCustomIcon(String parseMe, uint8_t& customIconIndex) {
+    // if string is of size 2 and has a first character as '@'
+    // get 2nd character, check if that 2nd character can be parsed into an integer
+    if (parseMe.length() == 2) {
+        char firstCharacter = parseMe.charAt(0);
+        char customIconIndexCharacter = parseMe.charAt(1);
+
+        // since we can only store 8 things in CGRAM (i.e. 8 custom icons)
+        // then we need to check if the second character is between 0 and 7
+        if (firstCharacter == '@' && customIconIndexCharacter >= '0' && customIconIndexCharacter <= '7') {
+            customIconIndex = customIconIndexCharacter - '0'; // TODO check if this is correct
+            return true;
+        }
+    }
+
+    return false;
+}
+
+void StateMachine::writeSingleToScreen(String characterOrCustomIcon) {
+    uint8_t optionalCustomIconIndex;
+    bool isCustomIcon = tryParseIntoCustomIcon(characterOrCustomIcon, optionalCustomIconIndex);
+
+    if (isCustomIcon) {
+        // print custom icon instead of string val
+        _lcdScreen.write(optionalCustomIconIndex);
+    } else {
+        // we have a regular string to write
+        _lcdScreen.print(characterOrCustomIcon.c_str());
+    }
 }
 
 
@@ -46,9 +80,8 @@ void StateMachine::drawNavigationPaneHelper(const String* navigationPane, size_t
         // draw stuff on row = row, col 0
         const String navPaneCharacter = navigationPane[row];
         // this'll be a single character to print out
-        // might be a custom icon 
-        // TODO write to screen
-    
+        // might be a custom icon as well so we ave to check
+        writeSingleToScreen(navPaneCharacter);
     }
 }
 
@@ -72,8 +105,7 @@ void StateMachine::drawTopOrBottomPaneHelper(const String *topOrBottomPane, size
         // character to write to screen
         const String topAndBottomPaneCharacter = topOrBottomPane[col];
         // TODO write to the screen
-        
-
+        writeSingleToScreen(topAndBottomPaneCharacter);
     }
 }
 
