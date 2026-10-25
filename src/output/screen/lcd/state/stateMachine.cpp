@@ -1,5 +1,4 @@
 #include "StateMachine.h"
-#include <cstdint>
 
 StateMachine::StateMachine(LCD lcdScreen, Icons customIcons, UIPage* uiPages) :
                             _icons(customIcons), _lcdScreen(lcdScreen), _currentUIPage(uiPages) {}
@@ -27,6 +26,18 @@ void StateMachine::initialize() {
     _lcdScreen.backlight();
 
     // TODO insert the custom icons from _icons into CGRAM
+    // TODO get rid of this magic number and make it a constant somewhere
+    for (uint8_t iconLocation = 0; iconLocation <= 7; iconLocation++) {
+        byte* customIcon = _icons.icons[iconLocation];
+
+        // if the icon isn't a null pointer then add it to our CGRAM
+        if (customIcon != nullptr) {
+            _lcdScreen.createChar(iconLocation, customIcon);
+        }
+    }
+
+    _lcdScreen.home();
+    drawEntireScreen();
 }
 
 bool StateMachine::tryParseIntoCustomIcon(String parseMe, uint8_t& customIconIndex) {
@@ -64,6 +75,9 @@ void StateMachine::writeSingleToScreen(String characterOrCustomIcon) {
 void StateMachine::handlePageTurn() {
     // increment and then wrap around if too large using mod
     _currentDynamicBottomPaneIndex = (_currentDynamicBottomPaneIndex + 1) % _currentUIPage->getDynamicBottomPaneCount();
+
+    // redraw just the dynamic bottom pane
+    drawDynamicBottomPane();
 }
 
 void StateMachine::handleConfirm() {
@@ -72,11 +86,15 @@ void StateMachine::handleConfirm() {
 
     // go to the next page
     _currentUIPage = _currentUIPage->getNextPage();
+
+    // draw the entirety of the new page
+    _lcdScreen.clear();
+    drawEntireScreen();
 }
 
 void StateMachine::drawNavigationPaneHelper(const String* navigationPane, size_t navigationPaneHeight, uint8_t column) {
     for (size_t row = 0; row < navigationPaneHeight; row++) {
-        _lcdScreen.setCursor(0, row);
+        _lcdScreen.setCursor(column, row);
         // draw stuff on row = row, col 0
         const String navPaneCharacter = navigationPane[row];
         // this'll be a single character to print out
@@ -126,7 +144,7 @@ void StateMachine::drawDynamicBottomPane() {
         
         drawTopOrBottomPaneHelper(currentBottomPane, 
             _currentUIPage->getTopAndBottomPaneSize(),
-             0);
+             1);
 
     } else {
         // if the current ui page does not have a dynamic bottom
@@ -135,9 +153,16 @@ void StateMachine::drawDynamicBottomPane() {
 
         drawTopOrBottomPaneHelper(bottomPane,
             _currentUIPage->getTopAndBottomPaneSize(),
-            0);
+            1);
     }
 
+}
+
+void StateMachine::drawEntireScreen() {
+    drawLeftNavigationPane();
+    drawStaticTopPane();
+    drawDynamicBottomPane();
+    drawRightNavigationPane();
 }
 
 

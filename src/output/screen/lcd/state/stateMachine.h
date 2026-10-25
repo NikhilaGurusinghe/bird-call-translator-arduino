@@ -2,7 +2,6 @@
 #define BIRD_CALL_TRANSLATOR_STATEMACHINE_H
 
 #include <Arduino.h>
-#include <cstdint>
 
 #include "output/screen/lcd/ui/uiPage.h"
 #include "output/screen/lcd/lcd.h"
@@ -49,6 +48,8 @@ class StateMachine {
         void drawTopOrBottomPaneHelper(const String* topOrBottomPane, size_t topOrBottomPaneWidth, uint8_t row);
         void drawStaticTopPane();
         void drawDynamicBottomPane();
+
+        void drawEntireScreen();
         
 };
 

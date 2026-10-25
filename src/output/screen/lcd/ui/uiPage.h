@@ -61,7 +61,7 @@ class UIPage {
         // we flip the isBottomPaneDynamic to true otherwise
         // this is just a 2 layer deep array with one element
         const String (*_dynamicBottomPanes)[14]; // array of size 14 string arrays
-        const size_t _dynamicBottomPaneCount;
+        const size_t _dynamicBottomPaneCount; // this cannot be set to 0
         const bool _isBottomPaneDynamic;
 
 };
