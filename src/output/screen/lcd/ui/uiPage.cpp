@@ -19,6 +19,10 @@ UIPage::UIPage(UIPage* nextPage,
     _dynamicBottomPaneCount(dynamicBottomPaneCount),
     _isBottomPaneDynamic(isBottomPaneDynamic) {}
 
+UIPage* UIPage::getNextPage() {
+    return _nextPage;
+}
+
 const String* UIPage::getLeftNavigationPane() const {
     return _leftNavigationPane;
 }

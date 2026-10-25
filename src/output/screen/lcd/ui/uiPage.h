@@ -2,7 +2,6 @@
 // within each main page we can have multiple subpages which can be flipped through in a loop (use mod on size of array) 
 // page configuration will just be two arrays (in a single array of the size of the screen) -> will have letters and numbers
 //  in each spot, but for special characters from an icon use "@<index of icon">
-
 #ifndef BIRD_CALL_TRANSLATOR_UIPAGE_H
 #define BIRD_CALL_TRANSLATOR_UIPAGE_H
 
@@ -19,6 +18,8 @@ class UIPage {
                 const String (*dynamicBottomPanes)[14],
                 const size_t dynamicBottomPaneCount,
                 bool isBottomPaneDynamic);
+
+        UIPage* getNextPage();
 
         const String* getLeftNavigationPane() const;
         const String* getRightNavigationPane() const;
