@@ -3,7 +3,7 @@
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 int downButton = 2;
 int selectButton = 3;
-int vibration = 4;
+// int vibration = 4;
 int piezo = 5;
 int currentScreen = 0;
 const int totalScreens = 3;
@@ -25,12 +25,12 @@ void setup() {
   lcd.clear();
   lcd.backlight();
 
-  pinMode(downButton, INPUT);
-  pinMode(selectButton, INPUT);
-  pinMode(vibration, OUTPUT);
+  pinMode(downButton, INPUT_PULLUP);
+  pinMode(selectButton, INPUT_PULLUP);
+  // pinMode(vibration, OUTPUT);
   pinMode(piezo, OUTPUT);
   
-  digitalWrite(vibration, LOW);
+  // digitalWrite(vibration, LOW);
 
   displayMenu();
 }
@@ -94,10 +94,10 @@ void selectScreen() {
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print("Magpie detected");
-    digitalWrite(vibration, HIGH);
-    delay(1000);
-    digitalWrite(vibration, LOW);
-    delay(1000);
+    // digitalWrite(vibration, HIGH);
+    // delay(1000);
+    // digitalWrite(vibration, LOW);
+    // delay(1000);
     lcd.clear();
         lcd.setCursor(0, 0);
     lcd.print("Magpie said:");

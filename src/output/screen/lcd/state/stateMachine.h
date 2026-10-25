@@ -12,7 +12,7 @@ class StateMachine {
     // want the LCD object 
     // want UI configuration for each screen -> singly linked list between main screens
     public:
-        StateMachine(LCD lcdScreen, Icons customIcons, UIPage* uiPages);
+        StateMachine(LCD lcdScreen, Icons& customIcons, UIPage* uiPages);
         // handling button input should change the state
         void update(bool buttonAPressed, bool buttonBPressed);
 

@@ -1,6 +1,6 @@
 #include "StateMachine.h"
 
-StateMachine::StateMachine(LCD lcdScreen, Icons customIcons, UIPage* uiPages) :
+StateMachine::StateMachine(LCD lcdScreen, Icons& customIcons, UIPage* uiPages) :
                             _icons(customIcons), _lcdScreen(lcdScreen), _currentUIPage(uiPages) {}
 
 void StateMachine::update(bool buttonAPressed, bool buttonBPressed) {
