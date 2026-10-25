@@ -19,7 +19,7 @@ class StateMachine {
     private:
         Icons _icons;
         LCD _lcdScreen;
-}
+};
 
 
 #endif //BIRD_CALL_TRANSLATOR_STATEMACHINE_H

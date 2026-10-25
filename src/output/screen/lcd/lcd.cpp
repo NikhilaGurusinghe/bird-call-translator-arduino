@@ -1,5 +1,4 @@
-
-#include lcd.h
+#include "lcd.h"
 
 // https://maxpromer.github.io/LCD-Character-Creator/
 
@@ -39,8 +38,9 @@ void LCD::createChar(uint8_t location, uint8_t characterMap[]) {
     _lcd.createChar(location, characterMap);
 }
 
+// TODO begin requires 3 inputs 
 void LCD::begin() {
-    _lcd.begin();
+    // _lcd.begin();
 }
 
 void LCD::write(uint8_t location) {

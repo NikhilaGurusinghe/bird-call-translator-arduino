@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 
-#include <Wire.h> 
+#include <Wire.h>
 // lcd screen driver library
 #include <LiquidCrystal_I2C.h>
 
@@ -32,7 +32,7 @@ class LCD {
         LiquidCrystal_I2C _lcd;
 
 
-}
+};
 
 
 

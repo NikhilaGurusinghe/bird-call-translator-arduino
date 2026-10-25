@@ -1,9 +1,10 @@
 #ifndef BIRD_CALL_TRANSLATOR_ICONS_H
 #define BIRD_CALL_TRANSLATOR_ICONS_H
 
+#include "Arduino.h"
 class Icons {
     private: 
-        byte DOWN_ARROW[] = {
+        byte DOWN_ARROW[8] = {
             B00000,
             B01110,
             B01110,
@@ -13,7 +14,7 @@ class Icons {
             B00100,
             B00000
         };
-        byte CONFIRMATION_TICK[] = {
+        byte CONFIRMATION_TICK[8] = {
             B00000,
             B00000,
             B00001,
@@ -23,7 +24,7 @@ class Icons {
             B00000,
             B00000
         };
-        byte QUESTION_ICON[] = {
+        byte QUESTION_ICON[8] = {
             B10001,
             B00100,
             B01010,
@@ -33,7 +34,7 @@ class Icons {
             B00100,
             B10001
         };
-        byte INFORMATION_ICON[] = {
+        byte INFORMATION_ICON[8] = {
             B10001,
             B00000,
             B00100,
@@ -56,9 +57,9 @@ class Icons {
             nullptr,
             nullptr,
             nullptr
-        };
+        } {}
 
-}
+};
 
 
 

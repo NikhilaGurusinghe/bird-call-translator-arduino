@@ -14,8 +14,23 @@ class UIPage {
                 const String* leftNavigationPane,
                 const String* rightNavigationPane,
                 const String* staticTopPane,
-                const String* dynamicBottomPane,
+                const String* dynamicBottomPanes,
                 bool isBottomPaneDynamic);
+
+        const String* getLeftNavigationPane() const;
+        const String* getRightNavigationPane() const;
+        
+        const String* getStaticTopPane() const;
+
+        // return the one and only bottom pane
+        // useful if bottom pane is static
+        const String* getFirstBottomPane() const;
+        // this should never out of bounds exception (segfault)
+        // cause it should wrap around and around the _dynamicBottomPanes
+        // array
+        const String (*getDynamicBottomPanes(int paneIndex) const)[14];
+        size_t getDynamicBottomPaneCount() const;
+        bool getIsBottomPaneDynamic() const;
 
     
 
@@ -25,7 +40,7 @@ class UIPage {
         // Navigation components
         // position 0 is top most on specified side
         // position 1 is bottom most on specified side
-        const String* _leftNavigationPane; // size 2
+        const String* _leftNavigationPane; // size 277
         const String* _rightNavigationPane; // size 2
 
         // static area on top
@@ -33,15 +48,11 @@ class UIPage {
         // dynamic options area, this becomes dynamic when
         // we flip the isBottomPaneDynamic to true otherwise
         // this is just a 2 layer deep array with one element
-        const String (*_dynamicBottomPane)[14] // array of size 14 string arrays
+        const String (*_dynamicBottomPanes)[14]; // array of size 14 string arrays
         const size_t _dynamicBottomPaneCount;
         const bool _isBottomPaneDynamic;
 
-        
-
-
-
-}
+};
 
 
 #endif //BIRD_CALL_TRANSLATE_UIPAGE_H
