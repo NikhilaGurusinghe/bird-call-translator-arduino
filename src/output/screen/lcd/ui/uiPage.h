@@ -14,7 +14,8 @@ class UIPage {
                 const String* leftNavigationPane,
                 const String* rightNavigationPane,
                 const String* staticTopPane,
-                const String* dynamicBottomPanes,
+                const String (*dynamicBottomPanes)[14],
+                const size_t dynamicBottomPaneCount,
                 bool isBottomPaneDynamic);
 
         const String* getLeftNavigationPane() const;
@@ -24,11 +25,13 @@ class UIPage {
 
         // return the one and only bottom pane
         // useful if bottom pane is static
+        // this returns a 14-wide array
         const String* getFirstBottomPane() const;
         // this should never out of bounds exception (segfault)
         // cause it should wrap around and around the _dynamicBottomPanes
         // array
-        const String (*getDynamicBottomPanes(int paneIndex) const)[14];
+        const String (*getDynamicBottomPanes() const)[14];
+        const String* getDynamicBottomPanesByIndex(size_t paneIndex) const;
         size_t getDynamicBottomPaneCount() const;
         bool getIsBottomPaneDynamic() const;
 
