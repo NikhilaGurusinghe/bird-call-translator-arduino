@@ -53,8 +53,6 @@ class UIPage {
         const String* _leftNavigationPane; // size 2
         const String* _rightNavigationPane; // size 2
         const size_t _navigationPaneSize;
-        // todo small sizes + getters and setter in constructor for this
-
 
         // static area on top
         const String* _staticTopPane; // size 14

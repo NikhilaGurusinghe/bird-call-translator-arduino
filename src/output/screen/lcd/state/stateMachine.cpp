@@ -5,8 +5,7 @@ StateMachine::StateMachine(LCD lcdScreen, Icons customIcons, UIPage* uiPages) :
 
 void StateMachine::update(bool buttonAPressed, bool buttonBPressed) {
 
-    // increment _currentDynamsicBottomPaneIndex
-
+    // can press both buttons at once
     if (buttonAPressed == true) {
         // only handle page turns if our _currentUIPage is has isBottomPaneDynamic == true
         // otherwise do nothing
@@ -14,7 +13,9 @@ void StateMachine::update(bool buttonAPressed, bool buttonBPressed) {
             handlePageTurn();
         }
 
-    } else if (buttonBPressed == true) {
+    } 
+    
+    if (buttonBPressed == true) {
         handleConfirm();
     }
 }
@@ -54,14 +55,14 @@ void StateMachine::drawNavigationPaneHelper(const String* navigationPane, size_t
 
 void StateMachine::drawLeftNavigationPane() {
     drawNavigationPaneHelper(_currentUIPage->getLeftNavigationPane(),
-                            _currentUIPage->getNavigationPaneHeight(),
-                            0);
+    _currentUIPage->getNavigationPaneHeight(),
+    0);
 }
 
 void StateMachine::drawRightNavigationPane() {
     drawNavigationPaneHelper(_currentUIPage->getRightNavigationPane(),
-                        _currentUIPage->getNavigationPaneHeight(),
-                        _currentUIPage->getTopAndBottomPaneSize() + 1); // TODO this hardcoding is bad
+    _currentUIPage->getNavigationPaneHeight(),
+    _currentUIPage->getTopAndBottomPaneSize() + 1); // TODO this hardcoding is bad
 }
 
 void StateMachine::drawTopOrBottomPaneHelper(const String *topOrBottomPane, size_t topOrBottomPaneWidth, uint8_t row) {
@@ -79,7 +80,32 @@ void StateMachine::drawTopOrBottomPaneHelper(const String *topOrBottomPane, size
 void StateMachine::drawStaticTopPane() {
     const String* staticTopPane = _currentUIPage->getStaticTopPane();
 
-    drawTopOrBottomPaneHelper(staticTopPane, _currentUIPage->getTopAndBottomPaneSize(), 0);
+    drawTopOrBottomPaneHelper(staticTopPane,
+        _currentUIPage->getTopAndBottomPaneSize(),
+        0);
+}
+
+void StateMachine::drawDynamicBottomPane() {
+    
+    if (_currentUIPage->getIsBottomPaneDynamic() == true) {
+        // if current ui page has dynamic bottom
+        // then we need to query all the available bottom panes using _currentDynamicBottomPaneIndex
+        const String* currentBottomPane = _currentUIPage->getDynamicBottomPanesByIndex(_currentDynamicBottomPaneIndex);
+        
+        drawTopOrBottomPaneHelper(currentBottomPane, 
+            _currentUIPage->getTopAndBottomPaneSize(),
+             0);
+
+    } else {
+        // if the current ui page does not have a dynamic bottom
+        // then just return the very first entry in it and draw that to screen
+        const String* bottomPane = _currentUIPage->getFirstBottomPane();
+
+        drawTopOrBottomPaneHelper(bottomPane,
+            _currentUIPage->getTopAndBottomPaneSize(),
+            0);
+    }
+
 }
 
 

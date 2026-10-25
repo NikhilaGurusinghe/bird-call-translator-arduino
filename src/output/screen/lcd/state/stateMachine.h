@@ -45,7 +45,7 @@ class StateMachine {
         void drawRightNavigationPane();
         void drawTopOrBottomPaneHelper(const String* topOrBottomPane, size_t topOrBottomPaneWidth, uint8_t row);
         void drawStaticTopPane();
-        void drawDynamicBottomPane(size_t bottomPaneIndex);
+        void drawDynamicBottomPane();
         
 };
 
