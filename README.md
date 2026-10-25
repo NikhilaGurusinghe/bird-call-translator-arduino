@@ -11,3 +11,5 @@ https://docs.platformio.org/en/latest/core/quickstart.html
 `pio run -e uno`. Process only uno environment
 
 `pio run -e uno -t upload`. Build project only for uno and upload firmware.
+
+`pio run -e uno -t compiledb` to make clangd work
