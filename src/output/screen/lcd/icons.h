@@ -36,12 +36,12 @@ class Icons {
         };
         byte INFORMATION_ICON[8] = {
             B11111,
-            B10001,
-            B10101,
-            B11101,
             B11011,
             B11111,
             B11011,
+            B10011,
+            B11011,
+            B10001,
             B11111
         };
         byte SOUNDWAVE_INTENSITY_XL[8] = {
