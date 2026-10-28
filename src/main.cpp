@@ -23,7 +23,7 @@ const String StaticTopPane[topAndBottomPaneSize] = {"@5", "@6", "@7", "@4",
                                                "@5", "@6", "@7", "@6",
                                               "@4", "@5"};
 const String learningScreen_DynamicBottomPanes[][topAndBottomPaneSize] = {{ " ", " ",
-   "k", "e", "e", "p",
+   "K", "e", "e", "p",
     " ",
      "a", "w", "a", "y", "!",
       " ", " " }};
@@ -38,9 +38,9 @@ UIPage learningScreen(nullptr,
 // quiz screen dependencies
 const String quizScreen_LeftNavPane[navPaneHeight] = {"@2", "@0"};
 const String quizScreen_DynamicBottomPanes[][topAndBottomPaneSize] = {
-  {" ", " ", "o", "p", "t", "i", "o", "n", " ", "#", "1", " ", " ", " "},
-  {" ", " ", "o", "p", "t", "i", "o", "n", " ", "#", "2", " ", " ", " "},
-  {" ", " ", "o", "p", "t", "i", "o", "n", " ", "#", "3", " ", " ", " "},
+  {" ", " ", "I", "'", "m", " ", "h", "u", "n", "g", "r", "y", " ", " "},
+  {" ", " ", "K", "e", "e", "p", " ", "a", "w", "a", "y", "!", " ", " "},
+  {" ", " ", " ", " ", "H", "i", " ", "m", "o", "m", "!", " ", " ", " "},
 };
 const size_t quizScreen_DynamicBottomPaneCount = 3;
 bool quizScreen_IsBottomPaneDynamic = true;

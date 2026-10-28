@@ -84,12 +84,52 @@ void StateMachine::handlePageTurn() {
     drawDynamicBottomPane();
 }
 
-void StateMachine::handleConfirm() {
-    // reset current count to 0
-    _currentDynamicBottomPaneIndex = 0;
+// HACK
+const size_t success_navPaneHeight = 2;
+const String success_LeftNavPane[success_navPaneHeight] = {"@3", "FF"};
+const String success_rightNavPane[success_navPaneHeight] = {"FF", "@1"};
+const size_t success_topAndBottomPaneSize = 14;
+const String success_StaticTopPane[success_topAndBottomPaneSize] = {"@5", "@6", "@7", "@4",
+                                            "@4", "@7", "@6", "@6", 
+                                            "@5", "@6", "@7", "@6",
+                                            "@4", "@5"};
+// const String success_DynamicBottomPanes[][success_topAndBottomPaneSize] = {{ " ", " ",
+// " ", "C", "o", "r",
+//     "r",
+//      "e", "c", "t", "!","",
+//     " ", " " }};
+const size_t success_DynamicBottomPaneCount = 1;
+bool success_IsBottomPaneDynamic = false;
+// UIPage successScreen(nullptr,
+//     success_LeftNavPane, success_rightNavPane, success_navPaneHeight,
+//     success_StaticTopPane, success_topAndBottomPaneSize, 
+//     success_DynamicBottomPanes, success_DynamicBottomPaneCount,
+//     success_IsBottomPaneDynamic);
 
+const String fail_DynamicBottomPanes[][success_topAndBottomPaneSize] = {{ " ", "x", " ",
+ "K", "e", "e", "p",
+    " ",
+    "a", "w", "a", "y", "!",
+     " " }};    
+
+UIPage failScreen(nullptr,
+    success_LeftNavPane, success_rightNavPane, success_navPaneHeight,
+    success_StaticTopPane, success_topAndBottomPaneSize, 
+    fail_DynamicBottomPanes, success_DynamicBottomPaneCount,
+    success_IsBottomPaneDynamic);    
+
+void StateMachine::handleConfirm() {
     // go to the next page
     UIPage* nextPage = _currentUIPage->getNextPage();
+
+    // HACK
+    if (_currentUIPage->getIsBottomPaneDynamic() && _currentDynamicBottomPaneIndex != 1) {
+        nextPage = &failScreen;
+    }
+
+    // reset current count to 0
+    _currentDynamicBottomPaneIndex = 0;
+  
     if (nextPage != nullptr) {
         _currentUIPage = nextPage;
     }
