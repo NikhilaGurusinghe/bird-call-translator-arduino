@@ -123,12 +123,12 @@ void StateMachine::drawRightNavigationPane() {
     _currentUIPage->getTopAndBottomPaneSize() + 1); // TODO this hardcoding is bad
 }
 
-void StateMachine::drawTopOrBottomPaneHelper(const String *topOrBottomPane, size_t topOrBottomPaneWidth, uint8_t row) {
+void StateMachine::drawTopOrBottomPaneHelper(const String *topOrBottomPane, size_t topOrBottomPaneWidth, uint8_t row, uint8_t startingColumn) {
     // draw from col 1 to 14
-    for (size_t col = 0; col < topOrBottomPaneWidth; col++) {
+    for (size_t col = startingColumn; col < topOrBottomPaneWidth; col++) {
         _lcdScreen.setCursor(col, row);
         // character to write to screen
-        const String& topAndBottomPaneCharacter = topOrBottomPane[col];
+        const String& topAndBottomPaneCharacter = topOrBottomPane[col - startingColumn];
         // TODO write to the screen
         writeSingleToScreen(topAndBottomPaneCharacter);
     }
@@ -138,8 +138,8 @@ void StateMachine::drawStaticTopPane() {
     const String* staticTopPane = _currentUIPage->getStaticTopPane();
 
     drawTopOrBottomPaneHelper(staticTopPane,
-        _currentUIPage->getTopAndBottomPaneSize(),
-        0);
+        _currentUIPage->getTopAndBottomPaneSize() + 1,
+        0, 1);
 }
 
 void StateMachine::drawDynamicBottomPane() {
@@ -151,7 +151,7 @@ void StateMachine::drawDynamicBottomPane() {
         
         drawTopOrBottomPaneHelper(currentBottomPane, 
             _currentUIPage->getTopAndBottomPaneSize(),
-             1);
+             1, 1);
 
     } else {
         // if the current ui page does not have a dynamic bottom
@@ -160,7 +160,7 @@ void StateMachine::drawDynamicBottomPane() {
 
         drawTopOrBottomPaneHelper(bottomPane,
             _currentUIPage->getTopAndBottomPaneSize(),
-            1);
+            1, 1);
     }
 
 }
